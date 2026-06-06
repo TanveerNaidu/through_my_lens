@@ -505,6 +505,7 @@
   /* ---- Auto-scroll galleries (no clones, frame-level pause) ---- */
   function autoScrollGalleries() {
     if (reduce) return;
+    const isTouch = window.matchMedia('(pointer: coarse)').matches;
 
     $$('.gallery').forEach((g) => {
       /* Remove any clones left from a previous version */
@@ -515,35 +516,49 @@
 
       g.style.scrollSnapType = 'none';
 
-      let paused    = false;
-      let rewinding = false;
-      const SPEED   = 0.65;
+      let paused      = false;
+      let rewinding   = false;
+      let rewindTimer = null;
+      const SPEED     = 0.65;
 
-      /* Pause ONLY when cursor is directly over a frame image */
-      frames.forEach((f) => {
-        f.addEventListener('mouseenter', () => { paused = true; });
-        f.addEventListener('mouseleave', () => { paused = false; });
-      });
+      /* ---- Pause helpers ---- */
+      const pauseNow = () => { paused = true; clearTimeout(rewindTimer); };
+      const resumeAfter = (ms) => setTimeout(() => { if (!rewinding) paused = false; }, ms);
 
-      /* Also pause while dragging, resume a beat after release */
+      /* Mouse: pause on frame hover */
+      if (!isTouch) {
+        frames.forEach((f) => {
+          f.addEventListener('mouseenter', pauseNow);
+          f.addEventListener('mouseleave', () => { paused = false; });
+        });
+      }
+
+      /* Touch: pause on tap on frame, resume after user has had time to view */
+      if (isTouch) {
+        frames.forEach((f) => {
+          f.addEventListener('touchstart', () => {
+            pauseNow();
+          }, { passive: true });
+          f.addEventListener('touchend', () => {
+            resumeAfter(3500); /* 3.5s to view the image before scrolling resumes */
+          }, { passive: true });
+        });
+      }
+
+      /* Drag (pointer) — both desktop + mobile */
       g.addEventListener('pointerdown', () => {
-        paused = true;
-        g.style.scrollSnapType = 'x mandatory'; /* snap when user drags */
+        pauseNow();
+        g.style.scrollSnapType = 'x mandatory';
       });
       g.addEventListener('pointerup', () => {
         g.style.scrollSnapType = 'none';
-        setTimeout(() => { paused = false; }, 1600);
+        resumeAfter(isTouch ? 2500 : 1600);
       });
-      g.addEventListener('touchstart', () => {
-        paused = true;
-        g.style.scrollSnapType = 'x mandatory';
-      }, { passive: true });
-      g.addEventListener('touchend', () => {
+      g.addEventListener('pointercancel', () => {
         g.style.scrollSnapType = 'none';
-        setTimeout(() => { paused = false; }, 2000);
-      }, { passive: true });
+      });
 
-      /* Smooth rewind back to start when reaching the end */
+      /* Smooth rewind to start after reaching the end */
       function smoothRewind(from, duration) {
         rewinding = true;
         const start = performance.now();
@@ -563,7 +578,14 @@
           const max = g.scrollWidth - g.clientWidth;
           if (max > 0) {
             g.scrollLeft += SPEED;
-            if (g.scrollLeft >= max - 1) smoothRewind(g.scrollLeft, 1400);
+            if (g.scrollLeft >= max - 2) {
+              /* Pause at end for 2s, then smoothly rewind */
+              paused = true;
+              rewindTimer = setTimeout(() => {
+                paused = false;
+                smoothRewind(g.scrollLeft, 1800);
+              }, 2000);
+            }
           }
         }
         requestAnimationFrame(tick);
