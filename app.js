@@ -23,6 +23,7 @@
     customCursor();
     seamlessVideo();
     liquidText();
+    autoScrollGalleries();
   }
 
   /* ---- Seamless video loop (avoids native loop black-frame gap) ---- */
@@ -501,6 +502,76 @@
     );
   }
 
+  /* ---- Auto-scroll galleries (no clones, frame-level pause) ---- */
+  function autoScrollGalleries() {
+    if (reduce) return;
+
+    $$('.gallery').forEach((g) => {
+      /* Remove any clones left from a previous version */
+      $$('.auto-clone', g).forEach((c) => c.parentNode.removeChild(c));
+
+      const frames = $$('.frame', g);
+      if (frames.length < 2) return;
+
+      g.style.scrollSnapType = 'none';
+
+      let paused    = false;
+      let rewinding = false;
+      const SPEED   = 0.65;
+
+      /* Pause ONLY when cursor is directly over a frame image */
+      frames.forEach((f) => {
+        f.addEventListener('mouseenter', () => { paused = true; });
+        f.addEventListener('mouseleave', () => { paused = false; });
+      });
+
+      /* Also pause while dragging, resume a beat after release */
+      g.addEventListener('pointerdown', () => {
+        paused = true;
+        g.style.scrollSnapType = 'x mandatory'; /* snap when user drags */
+      });
+      g.addEventListener('pointerup', () => {
+        g.style.scrollSnapType = 'none';
+        setTimeout(() => { paused = false; }, 1600);
+      });
+      g.addEventListener('touchstart', () => {
+        paused = true;
+        g.style.scrollSnapType = 'x mandatory';
+      }, { passive: true });
+      g.addEventListener('touchend', () => {
+        g.style.scrollSnapType = 'none';
+        setTimeout(() => { paused = false; }, 2000);
+      }, { passive: true });
+
+      /* Smooth rewind back to start when reaching the end */
+      function smoothRewind(from, duration) {
+        rewinding = true;
+        const start = performance.now();
+        function step(now) {
+          if (paused) { rewinding = false; return; }
+          const t    = Math.min((now - start) / duration, 1);
+          const ease = t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+          g.scrollLeft = from * (1 - ease);
+          if (t < 1) requestAnimationFrame(step);
+          else { g.scrollLeft = 0; rewinding = false; }
+        }
+        requestAnimationFrame(step);
+      }
+
+      function tick() {
+        if (!paused && !rewinding) {
+          const max = g.scrollWidth - g.clientWidth;
+          if (max > 0) {
+            g.scrollLeft += SPEED;
+            if (g.scrollLeft >= max - 1) smoothRewind(g.scrollLeft, 1400);
+          }
+        }
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    });
+  }
+
   /* ---- Liquid text: magnetic word repulsion on cursor proximity ---- */
   function liquidText() {
     const textEl = document.querySelector(".feature-quote .q");
@@ -570,3 +641,4 @@
   }
 
 })();
+
