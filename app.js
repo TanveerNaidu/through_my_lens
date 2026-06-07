@@ -24,6 +24,7 @@
     seamlessVideo();
     liquidText();
     autoScrollGalleries();
+    mobileContactReactive();
   }
 
   /* ---- Seamless video loop (avoids native loop black-frame gap) ---- */
@@ -306,14 +307,18 @@
       img.src = src;
       img.alt = lbl || '';
       img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.45s ease';
-      imgWrap.style.position = 'relative';
       imgWrap.appendChild(img);
+      /* Double rAF ensures the browser renders opacity:0 before transitioning
+         to opacity:1 — a single rAF can batch both into one paint, killing the
+         transition and leaving the image permanently invisible. */
       requestAnimationFrame(() => {
-        img.style.opacity = '1';
-        if (existing) {
-          existing.style.opacity = '0';
-          setTimeout(() => { if (existing.parentNode) existing.parentNode.removeChild(existing); }, 480);
-        }
+        requestAnimationFrame(() => {
+          img.style.opacity = '1';
+          if (existing) {
+            existing.style.opacity = '0';
+            setTimeout(() => { if (existing.parentNode) existing.parentNode.removeChild(existing); }, 480);
+          }
+        });
       });
       if (label) label.textContent = lbl || '';
     }
@@ -336,11 +341,19 @@
       cycleTimer = null;
     }
 
+    /* Preview dimensions (must match CSS .scene-preview width/height) */
+    const PW = 260, PH = 340;
+
     const move = (e) => {
       tx = e.clientX; ty = e.clientY;
       if (!raf) raf = requestAnimationFrame(() => {
-        wrap.style.left = tx + 'px';
-        wrap.style.top  = ty + 'px';
+        /* Clamp so the preview (offset -50% left, -54% up by transform) never
+           clips outside the viewport — especially important for South Africa
+           which is the top-most scene and has the lowest cursor Y position. */
+        const cx = Math.max(PW * 0.5 + 12, Math.min(window.innerWidth  - PW * 0.5 - 12, tx));
+        const cy = Math.max(PH * 0.54 + 12, Math.min(window.innerHeight - PH * 0.46 - 12, ty));
+        wrap.style.left = cx + 'px';
+        wrap.style.top  = cy + 'px';
         raf = null;
       });
     };
@@ -445,6 +458,49 @@
       if      (e.key === "Escape")     close();
       else if (e.key === "ArrowLeft")  show(current - 1);
       else if (e.key === "ArrowRight") show(current + 1);
+    });
+  }
+
+  /* ---- Mobile contact reactive: per-word flip on swipe/tap ---- */
+  function mobileContactReactive() {
+    /* Only activate on true touch devices */
+    if (!window.matchMedia("(hover: none)").matches) return;
+    const link = document.querySelector(".contact-big a");
+    if (!link) return;
+    const words = Array.from(link.querySelectorAll(".cb-word"));
+    if (!words.length) return;
+
+    function wordAt(x, y) {
+      return words.find((w) => {
+        const r = w.getBoundingClientRect();
+        return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
+      }) || null;
+    }
+
+    let lastWord = null;
+
+    function activate(w) {
+      if (w === lastWord) return;
+      if (lastWord) lastWord.classList.remove("touch-active");
+      lastWord = w;
+      if (w) w.classList.add("touch-active");
+    }
+
+    link.addEventListener("touchstart", (e) => {
+      const t = e.touches[0];
+      activate(wordAt(t.clientX, t.clientY));
+    }, { passive: true });
+
+    link.addEventListener("touchmove", (e) => {
+      const t = e.touches[0];
+      activate(wordAt(t.clientX, t.clientY));
+    }, { passive: true });
+
+    link.addEventListener("touchend", () => {
+      /* Small delay so the flip is visible before snapping back */
+      const prev = lastWord;
+      lastWord = null;
+      if (prev) setTimeout(() => prev.classList.remove("touch-active"), 320);
     });
   }
 
@@ -555,7 +611,11 @@
         resumeAfter(isTouch ? 2500 : 1600);
       });
       g.addEventListener('pointercancel', () => {
+        /* iOS fires pointercancel instead of pointerup when it takes over the
+           scroll gesture — without a resumeAfter here the gallery stays paused
+           indefinitely on mobile. */
         g.style.scrollSnapType = 'none';
+        resumeAfter(isTouch ? 2500 : 1600);
       });
 
       /* Smooth rewind to start after reaching the end */
@@ -594,11 +654,11 @@
     });
   }
 
-  /* ---- Liquid text: magnetic word repulsion on cursor proximity ---- */
+  /* ---- Liquid text: magnetic word repulsion on cursor/touch proximity ---- */
   function liquidText() {
     const textEl = document.querySelector(".feature-quote .q");
     if (!textEl || reduce) return;
-    if (window.matchMedia("(max-width: 700px)").matches) return;
+    /* Works on both desktop (mousemove) and mobile (touchmove) */
 
     /* Split by word — keeps natural wrapping intact */
     const raw = textEl.textContent.trim();
@@ -626,8 +686,13 @@
     const section = textEl.closest(".feature") || document.body;
     let mx = -9999, my = -9999, active = false;
 
-    section.addEventListener("mousemove", (e) => { mx = e.clientX; my = e.clientY; active = true; });
+    section.addEventListener("mousemove",  (e) => { mx = e.clientX; my = e.clientY; active = true; });
     section.addEventListener("mouseleave",  () => { active = false; mx = -9999; my = -9999; });
+    /* Touch: finger position drives the same repulsion effect */
+    section.addEventListener("touchmove", (e) => {
+      if (e.touches.length) { mx = e.touches[0].clientX; my = e.touches[0].clientY; active = true; }
+    }, { passive: true });
+    section.addEventListener("touchend",  () => { active = false; mx = -9999; my = -9999; });
 
     const MAX_R   = 220;   /* influence radius px   */
     const PUSH    = 40;    /* max push distance px  */
@@ -663,4 +728,3 @@
   }
 
 })();
-
