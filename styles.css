@@ -790,6 +790,16 @@ img.frame-img, img.hero-img, img.feature-bg-img {
   .hero-cta:hover { background: transparent; color: #fff; border-color: rgba(255,255,255,0.45); }
 }
 
+/* ---- Contact: per-word flip triggered by touch (mobile) ---- */
+.cb-word.touch-active span {
+  transform: translateY(106%);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cb-word.touch-active::before {
+  transform: translateY(0);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 /* ---- Title clip-rise reveal -------------------------------- */
 /* Each word is wrapped in .tr-clip (overflow:hidden) with an inner
    .tr-word that starts translated below and rises up on scroll —
@@ -821,4 +831,3 @@ img.frame-img, img.hero-img, img.feature-bg-img {
 @media (prefers-reduced-motion: reduce) {
   .tr-word { transform: none !important; transition: none !important; }
 }
-
