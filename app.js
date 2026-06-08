@@ -21,10 +21,112 @@
     lightbox();
     mobileMenu();
     customCursor();
+    heroReactive();
     seamlessVideo();
     liquidText();
     autoScrollGalleries();
     mobileContactReactive();
+  }
+
+  /* ---- Hero: cursor/tilt parallax + warm light leak ---- */
+  function heroReactive() {
+    if (reduce) return;
+    const hero  = document.getElementById('hero');
+    const img   = hero ? hero.querySelector('.hero-img') : null;
+    const lines = hero ? Array.from(hero.querySelectorAll('.hero-title .line > span')) : [];
+    if (!hero || !img) return;
+
+    /* Warm light-leak overlay — sits above scrim (z-index 1), below text (z-index 2) */
+    const leak = document.createElement('div');
+    leak.style.cssText = 'position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;transition:opacity 1.4s ease;mix-blend-mode:screen';
+    hero.appendChild(leak);
+
+    /* Image already fills container; scale up a touch so parallax has room */
+    img.style.transformOrigin = 'center center';
+    img.style.willChange = 'transform';
+
+    let hx = 0.5, hy = 0.5;    /* target (normalized) */
+    let cx = 0.5, cy = 0.5;    /* current (lerped)    */
+    let leakOn = false;
+    let tiltActive = false;
+
+    const LERP       = 0.055;
+    const IMG_SHIFT  = 38;          /* px max image shift  */
+    const LINE_SHIFT = [8, 5, 2.5]; /* px per title line   */
+
+    /* Main animation loop */
+    (function tick() {
+      cx += (hx - cx) * LERP;
+      cy += (hy - cy) * LERP;
+      const dx = cx - 0.5;   /* -0.5 → +0.5 */
+      const dy = cy - 0.5;
+
+      /* Image drifts opposite cursor — window/viewfinder effect */
+      img.style.transform = `scale(1.09) translate(${(-dx * IMG_SHIFT).toFixed(2)}px,${(-dy * IMG_SHIFT * 0.55).toFixed(2)}px)`;
+
+      /* Title lines at different depths */
+      lines.forEach((ln, i) => {
+        const s = LINE_SHIFT[i] ?? 1.5;
+        ln.style.transform = `translate(${(dx * s).toFixed(2)}px,${(dy * s * 0.45).toFixed(2)}px)`;
+      });
+
+      /* Light leak: warm terracotta glow at cursor position */
+      const lx = (cx * 100).toFixed(1);
+      const ly = (cy * 100).toFixed(1);
+      leak.style.background = `radial-gradient(ellipse 45% 55% at ${lx}% ${ly}%, oklch(0.96 0.006 80 / 0.05), transparent 65%)`;
+      leak.style.opacity = leakOn ? '1' : '0';
+
+      requestAnimationFrame(tick);
+    })();
+
+    /* ---- Desktop ---- */
+    hero.addEventListener('mousemove', (e) => {
+      const r = hero.getBoundingClientRect();
+      hx = (e.clientX - r.left) / r.width;
+      hy = (e.clientY - r.top)  / r.height;
+      leakOn = true;
+    });
+    hero.addEventListener('mouseleave', () => { hx = 0.5; hy = 0.5; leakOn = false; });
+
+    /* ---- Mobile: gyroscope (device orientation) ---- */
+    function startTilt() {
+      window.addEventListener('deviceorientation', (e) => {
+        const r = hero.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > window.innerHeight) return;
+        const gamma = Math.max(-28, Math.min(28, e.gamma || 0));
+        const beta  = Math.max(-18, Math.min(18, (e.beta  || 45) - 45));
+        hx = (gamma / 56) + 0.5;
+        hy = (beta  / 36) + 0.5;
+        tiltActive = true;
+        leakOn = true;
+      });
+    }
+
+    if (window.DeviceOrientationEvent) {
+      if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+        /* iOS 13+ requires user gesture to grant permission */
+        hero.addEventListener('touchstart', () => {
+          DeviceOrientationEvent.requestPermission()
+            .then(s => { if (s === 'granted') startTilt(); })
+            .catch(() => {});
+        }, { once: true, passive: true });
+      } else {
+        startTilt();
+      }
+    }
+
+    /* ---- Mobile fallback: touchmove across hero ---- */
+    hero.addEventListener('touchmove', (e) => {
+      if (tiltActive || !e.touches.length) return;
+      const r = hero.getBoundingClientRect();
+      hx = (e.touches[0].clientX - r.left) / r.width;
+      hy = (e.touches[0].clientY - r.top)  / r.height;
+      leakOn = true;
+    }, { passive: true });
+    hero.addEventListener('touchend', () => {
+      if (tiltActive) return;
+      hx = 0.5; hy = 0.5; leakOn = false;
+    });
   }
 
   /* ---- Seamless video loop with true crossfade (dual-video dissolve) ---- */
