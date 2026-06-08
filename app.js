@@ -27,18 +27,39 @@
     mobileContactReactive();
   }
 
-  /* ---- Seamless video loop (avoids native loop black-frame gap) ---- */
+  /* ---- Seamless video loop with crossfade ---- */
   function seamlessVideo() {
     const vid = document.getElementById('featureVid');
     if (!vid) return;
-    /* Start playing as soon as enough data is buffered */
     vid.play().catch(() => {});
-    /* Seek back LOOP_OFFSET seconds before end for a gapless loop */
-    const LOOP_OFFSET = 0.22;
+
+    /* Black overlay sits above the video, below the scrim */
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:absolute;inset:0;background:#000;opacity:0;pointer-events:none;z-index:2;transition:opacity 0.6s ease';
+    const container = vid.parentNode; /* .feature-media */
+    container.style.position = 'relative';
+    container.appendChild(overlay);
+
+    const FADE_BEFORE = 1.2;  /* seconds before end to begin fade to black */
+    const FADE_MS     = 600;  /* duration of each half of the crossfade (ms) */
+    let fading = false;
+
     vid.addEventListener('timeupdate', () => {
-      if (vid.duration && vid.currentTime >= vid.duration - LOOP_OFFSET) {
-        vid.currentTime = 0;
-        vid.play().catch(() => {});
+      if (!vid.duration || fading) return;
+      const remaining = vid.duration - vid.currentTime;
+
+      if (remaining <= FADE_BEFORE) {
+        fading = true;
+        /* 1 — fade to black */
+        overlay.style.opacity = '1';
+        setTimeout(() => {
+          /* 2 — seek to start while fully black */
+          vid.currentTime = 0;
+          vid.play().catch(() => {});
+          /* 3 — fade back in */
+          overlay.style.opacity = '0';
+          setTimeout(() => { fading = false; }, FADE_MS + 80);
+        }, FADE_MS);
       }
     });
   }
@@ -720,3 +741,4 @@
   }
 
 })();
+
