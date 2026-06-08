@@ -346,7 +346,10 @@ body.grain-on .grain { opacity: 0.045; }
 .gallery-wrap { position: relative; }
 .gallery {
   display: flex; gap: clamp(16px, 1.8vw, 30px); overflow-x: auto; padding-bottom: 28px;
-  scroll-snap-type: x mandatory; cursor: grab; scrollbar-width: none;
+  /* scroll-snap-type managed entirely by JS — CSS snap causes iOS WebKit to
+     intercept programmatic scrollLeft changes and snap them back to 0px */
+  cursor: grab; scrollbar-width: none;
+  touch-action: pan-y; /* let iOS handle vertical page-scroll; JS owns horizontal drag */
   padding-inline: var(--edge); margin-inline: calc(-1 * var(--edge));
 }
 .gallery::-webkit-scrollbar { display: none; }
@@ -831,3 +834,4 @@ img.frame-img, img.hero-img, img.feature-bg-img {
 @media (prefers-reduced-motion: reduce) {
   .tr-word { transform: none !important; transition: none !important; }
 }
+
