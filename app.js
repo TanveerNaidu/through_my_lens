@@ -570,7 +570,7 @@
       const frames = $$('.frame', g);
       if (frames.length < 2) return;
 
-      g.style.scrollSnapType = 'none';
+      /* No inline snap override needed — CSS snap removed so iOS can't block scrollLeft */
 
       let paused      = false;
       let rewinding   = false;
@@ -589,17 +589,9 @@
         });
       }
 
-      /* Touch: pause on tap on frame, resume after user has had time to view */
-      if (isTouch) {
-        frames.forEach((f) => {
-          f.addEventListener('touchstart', () => {
-            pauseNow();
-          }, { passive: true });
-          f.addEventListener('touchend', () => {
-            resumeAfter(3500); /* 3.5s to view the image before scrolling resumes */
-          }, { passive: true });
-        });
-      }
+      /* Touch: frame-level touchstart/touchend deliberately removed.
+         iOS fires touchcancel (not touchend) during page-scroll, which left
+         paused=true forever. pointerdown/pointercancel on g handles this cleanly. */
 
       /* Drag (pointer) — both desktop + mobile */
       g.addEventListener('pointerdown', () => {
