@@ -134,17 +134,17 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
     will-change: left, top;
   }
   .cursor-dot {
-    width: 5px; height: 5px;
+    width: 7px; height: 7px;
     background: var(--accent);
   }
   .cursor-ring {
-    width: 30px; height: 30px;
+    width: 34px; height: 34px;
     border: 1.5px solid var(--accent);
-    opacity: 0.65;
+    opacity: 0.85;
     transition: width 0.25s var(--ease), height 0.25s var(--ease), opacity 0.25s, border-color 0.25s;
   }
   .cursor-ring.hover {
-    width: 48px; height: 48px;
+    width: 52px; height: 52px;
     opacity: 1;
   }
 }
