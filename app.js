@@ -27,41 +27,66 @@
     mobileContactReactive();
   }
 
-  /* ---- Seamless video loop with crossfade ---- */
+  /* ---- Seamless video loop with true crossfade (dual-video dissolve) ---- */
   function seamlessVideo() {
-    const vid = document.getElementById('featureVid');
-    if (!vid) return;
-    vid.play().catch(() => {});
+    const vidA = document.getElementById('featureVid');
+    if (!vidA) return;
+    vidA.play().catch(() => {});
 
-    /* Black overlay sits above the video, below the scrim */
-    const overlay = document.createElement('div');
-    overlay.style.cssText = 'position:absolute;inset:0;background:#000;opacity:0;pointer-events:none;z-index:2;transition:opacity 0.6s ease';
-    const container = vid.parentNode; /* .feature-media */
-    container.style.position = 'relative';
-    container.appendChild(overlay);
+    /* Clone the video — both share the same src and CSS class positioning */
+    const vidB = vidA.cloneNode(true);
+    vidB.removeAttribute('id');
+    vidB.removeAttribute('autoplay');
+    vidB.muted = true;
+    vidA.parentNode.appendChild(vidB);
+    vidB.load();
 
-    const FADE_BEFORE = 1.2;  /* seconds before end to begin fade to black */
-    const FADE_MS     = 600;  /* duration of each half of the crossfade (ms) */
-    let fading = false;
+    const TRANS       = 'opacity 0.9s ease';
+    const FADE_BEFORE = 1.5;  /* seconds before end to begin dissolve */
+    const FADE_MS     = 900;  /* crossfade duration in ms */
 
-    vid.addEventListener('timeupdate', () => {
-      if (!vid.duration || fading) return;
-      const remaining = vid.duration - vid.currentTime;
+    vidA.style.transition = TRANS;
+    vidA.style.opacity    = '1';
+    vidA.style.zIndex     = '0';
+    vidB.style.transition = TRANS;
+    vidB.style.opacity    = '0';
+    vidB.style.zIndex     = '1';
 
-      if (remaining <= FADE_BEFORE) {
-        fading = true;
-        /* 1 — fade to black */
-        overlay.style.opacity = '1';
+    let active = vidA, standby = vidB;
+
+    function watchActive() {
+      const cur = active, nxt = standby;
+
+      function check() {
+        if (!cur.duration) return;
+        if (cur.duration - cur.currentTime > FADE_BEFORE) return;
+        cur.removeEventListener('timeupdate', check);
+
+        /* Bring next video in front and start it */
+        nxt.style.zIndex  = '2';
+        cur.style.zIndex  = '1';
+        nxt.currentTime   = 0;
+        nxt.play().catch(() => {});
+
+        /* Dissolve: fade next in, fade current out simultaneously */
+        requestAnimationFrame(() => {
+          nxt.style.opacity = '1';
+          cur.style.opacity = '0';
+        });
+
         setTimeout(() => {
-          /* 2 — seek to start while fully black */
-          vid.currentTime = 0;
-          vid.play().catch(() => {});
-          /* 3 — fade back in */
-          overlay.style.opacity = '0';
-          setTimeout(() => { fading = false; }, FADE_MS + 80);
-        }, FADE_MS);
+          cur.style.zIndex  = '0';
+          nxt.style.zIndex  = '1';
+          active  = nxt;
+          standby = cur;
+          watchActive();
+        }, FADE_MS + 100);
       }
-    });
+
+      cur.addEventListener('timeupdate', check);
+    }
+
+    watchActive();
   }
 
   /* ---- Preloader: count 00→100, then slide up & reveal hero ---- */
@@ -552,6 +577,16 @@
       if (e.target.closest("a, button, .frame, .scene")) ring.classList.remove("hover");
     });
 
+    /* Hide both cursor elements when pointer leaves the browser window */
+    document.addEventListener('mouseleave', () => {
+      dot.style.opacity  = '0';
+      ring.style.opacity = '0';
+    });
+    document.addEventListener('mouseenter', () => {
+      dot.style.opacity  = '';
+      ring.style.opacity = '';
+    });
+
     const lerp = (a, b, t) => a + (b - a) * t;
     (function tick() {
       rx = lerp(rx, mx, 0.11);
@@ -741,4 +776,5 @@
   }
 
 })();
+
 
