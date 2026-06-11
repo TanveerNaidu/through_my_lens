@@ -52,6 +52,7 @@
 
     const LERP       = 0.055;
     const IMG_SHIFT  = 38;          /* px max image shift  */
+    const SCROLL_PAR = 0.10;        /* scroll parallax ratio — keep subtle */
     const LINE_SHIFT = [8, 5, 2.5]; /* px per title line   */
 
     /* Main animation loop */
@@ -61,8 +62,9 @@
       const dx = cx - 0.5;   /* -0.5 → +0.5 */
       const dy = cy - 0.5;
 
-      /* Image drifts opposite cursor — window/viewfinder effect */
-      img.style.transform = `scale(1.09) translate(${(-dx * IMG_SHIFT).toFixed(2)}px,${(-dy * IMG_SHIFT * 0.55).toFixed(2)}px)`;
+      /* Scroll parallax — subtle upward drift, reduced to avoid black gap */
+      const scrollOff = window.scrollY * SCROLL_PAR;
+      img.style.transform = `scale(1.12) translate(${(-dx * IMG_SHIFT).toFixed(2)}px,${((-dy * IMG_SHIFT * 0.55) - scrollOff).toFixed(2)}px)`;
 
       /* Title lines at different depths */
       lines.forEach((ln, i) => {
@@ -878,5 +880,4 @@
   }
 
 })();
-
 
