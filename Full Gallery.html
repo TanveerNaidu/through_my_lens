@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en" data-base="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Full Gallery — Tanveer Naidu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&family=Anton&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+/* ============================================================
+   FULL GALLERY — helix spiral scroll
+   Every photograph on the site arranged on a 3D spiral. Scroll
+   turns the spiral; the front frame's name + scene fade in on
+   the left. Industrial-editorial: warm dark mono + terracotta.
+   ============================================================ */
+html, body { background: var(--dark-bg); color: var(--dark-ink); }
+html { scroll-behavior: auto; }
+
+/* 3D mode (JS adds .sg-3d): virtual infinite scroll — no native scrollbar */
+body.sg-3d { overflow: hidden; height: 100svh; }
+body.sg-3d .sg-stage { touch-action: none; }
+
+/* faint grid — gives the dark space depth, like graph paper in a studio */
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size: 90px 90px;
+}
+
+.sg-nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 40;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px var(--edge);
+  mix-blend-mode: difference; color: #fff;
+}
+.sg-nav a { color: #fff; text-decoration: none; }
+.sg-back {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.sg-back .arr { display: inline-block; transition: transform 0.25s var(--ease); }
+.sg-back:hover .arr { transform: translateX(-4px); }
+.sg-brand { font-family: var(--font-display); font-weight: 900; font-size: 15px; letter-spacing: 0.01em; }
+.sg-brand sup { font-size: 8px; }
+.sg-count {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.14em;
+}
+.sg-count b { font-weight: 700; }
+
+/* ---- Fixed 3D stage ---------------------------------------- */
+.sg-stage {
+  position: fixed; inset: 0; overflow: hidden;
+  perspective: 1900px; perspective-origin: 50% 46%;
+}
+.sg-world {
+  position: absolute; left: 50%; top: 46%;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.sg-card {
+  position: absolute; left: 0; top: 0;
+  width: var(--card-w); height: calc(var(--card-w) * 1.30);
+  margin-left: calc(var(--card-w) * -0.5);
+  margin-top: calc(var(--card-w) * -0.65);
+  transform-style: preserve-3d;
+  will-change: transform, opacity, filter;
+  background: var(--dark-paper);
+  border-radius: 14px;
+  overflow: hidden;
+  outline: 1px solid var(--dark-line);
+  outline-offset: -1px;
+}
+.sg-card {
+  transition: outline-color 0.25s var(--ease), box-shadow 0.3s var(--ease);
+}
+/* hover ring drawn ABOVE the photo — neutral light edge, no accent colour */
+.sg-card::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit;
+  border: 1px solid transparent; pointer-events: none; z-index: 3;
+  transition: border-color 0.25s var(--ease);
+}
+.sg-card:hover, .sg-card.is-hover { box-shadow: 0 18px 60px rgba(0,0,0,0.55); }
+.sg-card:hover::after, .sg-card.is-hover::after { border-color: rgba(255,255,255,0.55); }
+.sg-card img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  -webkit-user-drag: none; user-select: none;
+}
+.sg-card-no {
+  position: absolute; top: 8px; left: 10px; z-index: 2;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.85); text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+}
+.sg-card.is-front { cursor: pointer; }
+
+/* ---- Meta overlay (left) ----------------------------------- */
+.sg-meta {
+  position: fixed; left: var(--edge); top: 50%; transform: translateY(-50%);
+  z-index: 30; pointer-events: none; max-width: 44vw;
+}
+.sg-meta .m-no {
+  font-family: var(--font-mono); font-size: clamp(12px, 1.2vw, 14px);
+  letter-spacing: 0.16em; color: var(--accent); display: block;
+}
+.sg-meta .m-title {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: clamp(34px, 6.4vw, 110px);
+  line-height: 0.92; letter-spacing: -0.02em; text-transform: uppercase;
+  margin: 10px 0 14px; color: var(--dark-ink);
+  text-wrap: balance;
+}
+.sg-meta .m-cat {
+  display: inline-block;
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--dark-soft);
+  border: 1px solid var(--dark-line); padding: 6px 12px;
+}
+.sg-meta .m-no, .sg-meta .m-title, .sg-meta .m-cat {
+  transition: opacity 0.28s ease, transform 0.28s var(--ease);
+}
+.sg-meta.swap .m-no, .sg-meta.swap .m-title, .sg-meta.swap .m-cat {
+  opacity: 0; transform: translateY(10px);
+  transition: none;
+}
+
+/* ---- Hint + scene rail -------------------------------------- */
+.sg-hint {
+  position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%);
+  z-index: 30; font-family: var(--font-mono); font-size: 12px;
+  letter-spacing: 0.22em; color: var(--dark-soft);
+  transition: opacity 0.6s ease; pointer-events: none;
+}
+.sg-hint.gone { opacity: 0; }
+.sg-rail {
+  position: fixed; right: var(--edge); top: 50%; transform: translateY(-50%);
+  z-index: 30; display: flex; flex-direction: column; gap: 14px; text-align: right;
+}
+.sg-rail a {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em;
+  text-transform: uppercase; text-decoration: none;
+  color: var(--dark-soft); opacity: 0.55;
+  transition: opacity 0.25s ease, color 0.25s ease;
+}
+.sg-rail a.on { opacity: 1; color: var(--accent); }
+.sg-rail a:hover { opacity: 1; }
+
+/* ---- Responsive --------------------------------------------- */
+:root { --card-w: clamp(172px, 19vw, 330px); }
+/* iPad / tablet: keep the 3D spiral (the 2D list is phone-only, ≤700px), but
+   give cards a touch more presence on the medium tablet canvas. */
+@media (min-width: 701px) and (max-width: 1100px) {
+  :root { --card-w: clamp(190px, 26vw, 300px); }
+}
+@media (max-width: 700px) {
+  :root { --card-w: clamp(132px, 42vw, 188px); }
+  .sg-stage { perspective: 760px; perspective-origin: 50% 44%; }
+  .sg-world { top: 42%; }
+  .sg-meta { top: auto; bottom: 52px; transform: none; max-width: 88vw; left: 20px; }
+  .sg-meta .m-no { font-size: 11px; }
+  .sg-meta .m-title { font-size: clamp(30px, 12vw, 56px); margin: 6px 0 10px; }
+  .sg-meta .m-cat { font-size: 10px; padding: 5px 10px; }
+  .sg-rail { display: none; }
+  .sg-nav { padding: 14px 20px; }
+  .sg-nav .sg-brand { display: none; }
+  .sg-hint { bottom: 16px; font-size: 10px; letter-spacing: 0.18em; }
+  body::before { background-size: 56px 56px; }
+}
+
+/* ---- MOBILE: lightweight 2D scroll gallery (replaces helix on phones) ------
+   A plain native vertical scroll. The frame nearest the screen centre grows to
+   full size; the others shrink — a simple 2D scale, no 3D, no perspective, no
+   grayscale filters. Off-screen frames use content-visibility so the browser
+   doesn't keep their full-size images decoded — that's what stops iOS Safari
+   from running out of memory and crashing past ~photo 20. */
+body.sg-scroll { overflow-x: hidden; height: auto; min-height: 100svh;
+  background: var(--dark-bg); }
+body.sg-scroll .sg-stage,
+body.sg-scroll .sg-rail,
+body.sg-scroll .sg-meta,
+body.sg-scroll .sg-hint { display: none !important; }
+
+.mg-track {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 7vh; padding: 24vh 0 28vh;
+  position: relative; z-index: 1;
+}
+.mg-card {
+  position: relative; flex: none;
+  width: 84vw; max-width: 360px; aspect-ratio: 3 / 4;
+  border-radius: 16px; overflow: hidden;
+  background: var(--dark-paper);
+  outline: 1px solid rgba(255,255,255,0.14); outline-offset: -1px;
+  box-shadow: 0 14px 36px rgba(0,0,0,0.5);
+  text-decoration: none;
+  /* 2D scale only — grows when centred, shrinks when it leaves */
+  transform: scale(0.84);
+  transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
+              outline-color 0.4s ease;
+  /* MEMORY FIX: don't render or decode off-screen frames */
+  content-visibility: auto;
+  contain-intrinsic-size: 480px;
+}
+.mg-card.is-mid { transform: scale(1); outline-color: rgba(255,255,255,0.5); }
+.mg-photo {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  -webkit-user-drag: none; user-select: none;
+}
+/* caption scrim — only blooms in at the centre frame */
+.mg-card::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 62%;
+  background: linear-gradient(to top, rgba(8,8,7,0.94), rgba(8,8,7,0.42) 42%, transparent);
+  opacity: 0; transition: opacity 0.5s ease; z-index: 2; pointer-events: none;
+}
+.mg-card.is-mid::after { opacity: 1; }
+
+.mg-no {
+  position: absolute; top: 14px; left: 16px; z-index: 4;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.9); text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+}
+.mg-cap { position: absolute; left: 18px; right: 18px; bottom: 18px; z-index: 4; pointer-events: none; }
+.mg-cap .cat, .mg-cap .t, .mg-cap .m {
+  opacity: 0; transform: translateY(12px);
+  transition: opacity 0.5s var(--ease), transform 0.55s var(--ease);
+}
+.mg-cap .cat {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--accent);
+}
+.mg-cap .cat::before { content: ""; width: 18px; height: 1px; background: currentColor; }
+.mg-cap .t {
+  margin: 8px 0 5px; font-family: var(--font-display); font-weight: 900;
+  text-transform: uppercase; letter-spacing: -0.02em; line-height: 0.9;
+  font-size: clamp(30px, 9.5vw, 46px); color: #fff; text-wrap: balance;
+  transition-delay: 0.05s;
+}
+.mg-cap .m {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.02em;
+  color: rgba(244,241,236,0.82); transition-delay: 0.1s;
+}
+.mg-card.is-mid .mg-cap .cat,
+.mg-card.is-mid .mg-cap .t,
+.mg-card.is-mid .mg-cap .m { opacity: 1; transform: none; }
+
+/* scene dots — one per series, lights up as you pass through it */
+.mg-dots {
+  position: fixed; right: 14px; top: 50%; transform: translateY(-50%);
+  z-index: 25; display: flex; flex-direction: column; gap: 11px; pointer-events: none;
+}
+.mg-dots i {
+  width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.24);
+  transition: background 0.35s ease, transform 0.35s var(--ease);
+}
+.mg-dots i.on { background: var(--accent); transform: scale(1.6); }
+
+/* first-run scroll cue */
+.mg-cue {
+  position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%);
+  z-index: 26; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.24em;
+  text-transform: uppercase; color: var(--dark-soft);
+  display: flex; align-items: center; gap: 9px;
+  transition: opacity 0.6s ease; pointer-events: none;
+}
+.mg-cue::after { content: "↓"; animation: mgcue 1.7s var(--ease) infinite; }
+@keyframes mgcue { 0%,100% { transform: translateY(0); opacity: 0.5; } 50% { transform: translateY(4px); opacity: 1; } }
+.mg-cue.gone { opacity: 0; }
+
+/* ---- Reduced motion: flat list fallback --------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .sg-stage, .sg-spacer, .sg-hint { display: none; }
+  .sg-meta { display: none; }
+  .sg-list { display: block !important; padding: 120px var(--edge) 80px; }
+  .sg-list figure { margin: 0 0 48px; max-width: 720px; }
+  .sg-list img { width: 100%; display: block; }
+  .sg-list figcaption {
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--dark-soft); margin-top: 10px;
+  }
+}
+.sg-list { display: none; }
+</style>
+</head>
+<body class="grain-on" data-screen-label="Full Gallery">
+
+<div class="grain" aria-hidden="true"></div>
+
+<header class="sg-nav">
+  <a href="index.html#index" class="sg-back"><span class="arr">←</span>&nbsp; Index</a>
+  <a href="index.html" class="sg-brand">Through My Lens<sup>®</sup></a>
+  <div class="sg-count"><b id="sgNow">01</b> / <span id="sgTotal">24</span></div>
+</header>
+
+<div class="sg-stage" aria-hidden="true">
+  <div class="sg-world" id="sgWorld"></div>
+</div>
+
+<div class="sg-meta" id="sgMeta" aria-live="polite">
+  <span class="m-no" id="sgNo">( 01 )</span>
+  <h1 class="m-title" id="sgTitle">Flight</h1>
+  <span class="m-cat" id="sgCat">Selected Work</span>
+</div>
+
+<nav class="sg-rail" id="sgRail">
+  <a href="#" data-cat="Selected Work">Selected</a>
+  <a href="#" data-cat="South Africa">South Africa</a>
+  <a href="#" data-cat="India">India</a>
+  <a href="#" data-cat="Nature">Nature</a>
+  <a href="#" data-cat="Street">Street</a>
+</nav>
+
+<div class="sg-hint" id="sgHint">( SCROLL )</div>
+
+<div class="sg-spacer" id="sgSpacer"></div>
+
+<!-- Reduced-motion / no-JS fallback list -->
+<main class="sg-list" id="sgList"></main>
+
+<script src="gallery-spiral.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
