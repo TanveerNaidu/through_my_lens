@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en" data-base="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tanveer Naidu — Photography</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&family=Anton&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css?v=4" />
+<!-- Preloader safety net: force-hide after 5s if JS stalls -->
+<script>
+(function(){
+  function forceHide(){
+    var el=document.getElementById('preloader');
+    if(!el)return;
+    el.style.transition='transform 0.8s cubic-bezier(0.76,0,0.24,1)';
+    el.style.transform='translateY(-101%)';
+    document.body.style.overflow='';
+    document.body.classList.remove('preload-active');
+    setTimeout(function(){if(el&&el.parentNode)el.parentNode.removeChild(el);},850);
+  }
+  window.addEventListener('load',function(){
+    setTimeout(forceHide, 4500);
+  });
+})();
+</script>
+<template id="__bundler_thumbnail" data-bg-color="#15130f">
+  <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+    <!-- Camera lens ring -->
+    <circle cx="400" cy="250" r="140" fill="none" stroke="#c4703a" stroke-width="6" opacity="0.9"/>
+    <circle cx="400" cy="250" r="100" fill="none" stroke="#c4703a" stroke-width="2" opacity="0.5"/>
+    <circle cx="400" cy="250" r="52" fill="#c4703a" opacity="0.18"/>
+    <!-- Center dot -->
+    <circle cx="400" cy="250" r="10" fill="#c4703a"/>
+    <!-- TML monogram -->
+    <text x="400" y="432" font-family="system-ui,sans-serif" font-weight="900" font-size="18" letter-spacing="8" fill="#c4703a" text-anchor="middle" opacity="0.8">THROUGH MY LENS</text>
+  </svg>
+</template>
+</head>
+<body class="grain-on">
+
+<!-- ============ PRELOADER ============ -->
+<div class="preloader" id="preloader" aria-hidden="true">
+  <div class="pre-eyebrow"><span class="dot"></span>Tanveer Naidu · Photography</div>
+  <h2 class="pre-title">
+    <span class="pl"><span>Through</span></span>
+    <span class="pl"><span>My <em>Lens</em></span></span>
+  </h2>
+  <div class="pre-count"><span id="preCount">00</span><span class="pct">%</span></div>
+  <div class="pre-bar"><i id="preBar"></i></div>
+</div>
+
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ============ NAV ============ -->
+<header class="site-nav" id="nav">
+  <a href="#top" class="brand"><span class="js-name-short">T. Naidu</span><sup>®</sup></a>
+  <nav class="nav-links">
+    <a href="#work" data-nav>Work</a>
+    <a href="#about" data-nav>About</a>
+    <a href="#index" data-nav>Index</a>
+    <a href="Full Gallery.html" data-nav>Full Gallery</a>
+    <a href="#contact" data-nav>Contact</a>
+  </nav>
+  <div class="nav-status">Est. 2026</div>
+  <button class="nav-menu-btn" id="menuBtn">Menu</button>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="hero" data-screen-label="Hero">
+    <div class="hero-media">
+      <img src="hero.png" alt="Photographer standing at the ocean's edge" class="hero-img" />
+    </div>
+    <div class="hero-scrim"></div>
+
+    <div class="hero-top wrap">
+      <span class="eyebrow"><span class="dot"></span>Photographer · Visual Storyteller</span>
+    </div>
+
+    <div class="hero-bottom wrap" style="padding: 0px 45px 38px 5px">
+      <h1 class="hero-title">
+        <span class="line"><span>Every</span></span>
+        <span class="line"><span class="ghost">Frame, a</span></span>
+        <span class="line"><span>Question.</span></span>
+      </h1>
+      <div class="hero-foot">
+        <p class="hero-lede"><span class="js-name">Tanveer Naidu</span> — two continents, one lens. Documenting the world through raw light and honest moments.</p>
+        <a href="#work" class="hero-cta" style="padding: 14px 22px">View photography <span class="arr">→</span></a>
+      </div>
+    </div>
+
+    <div class="hero-index">( 01 / 06 )</div>
+  </section>
+
+  <!-- ============ MARQUEE ============ -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="marquee-item">Photography<span class="star">✦</span></span>
+      <span class="marquee-item">Light &amp; Shadow<span class="star">✦</span></span>
+      <span class="marquee-item">Sony ILCE-6700<span class="star">✦</span></span>
+      <span class="marquee-item">Long Focal Lengths<span class="star">✦</span></span>
+      <span class="marquee-item">Visual Storytelling<span class="star">✦</span></span>
+      <span class="marquee-item">Moments<span class="star">✦</span></span>
+      <span class="marquee-item">Photography<span class="star">✦</span></span>
+      <span class="marquee-item">Light &amp; Shadow<span class="star">✦</span></span>
+      <span class="marquee-item">Sony ILCE-6700<span class="star">✦</span></span>
+      <span class="marquee-item">Long Focal Lengths<span class="star">✦</span></span>
+      <span class="marquee-item">Visual Storytelling<span class="star">✦</span></span>
+      <span class="marquee-item">Moments<span class="star">✦</span></span>
+    </div>
+  </div>
+
+  <!-- ============ ABOUT ============ -->
+  <section class="sec" id="about" data-screen-label="About">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="label"><span class="section-num">( 01 )</span><span class="eyebrow">About</span></div>
+        <span class="eyebrow">The story so far</span>
+      </div>
+      <div class="about-grid">
+        <div data-reveal>
+          <p class="about-lede">I find meaning in the details — the <b>light</b> in a photograph, the idea buried inside a page, the satisfaction of building something from nothing.</p>
+          <div class="about-body">
+            <p>I'm <strong>Tanveer Naidu</strong> — a photographer and visual storyteller. Whether through a camera lens or a blank canvas, I'm always in the act of creating.</p>
+            <p>My ambition is still forming — and I love that. A life shaped by creativity, curiosity, and a refusal to stop learning.</p>
+            <p>More work is on the way — I'm continuously shooting and will be uploading new collections regularly. Stay tuned.</p>
+          </div>
+          <div class="about-tags">
+            <span>Photography</span><span>EDITING</span><span>Creating</span><span>Learning</span><span>Exploring</span>
+          </div>
+        </div>
+        <div class="about-side" data-reveal data-reveal-delay="1">
+          <dl class="spec"><dt>MAIN CAMERA</dt><dd>Sony A6700</dd></dl>
+          <dl class="spec"><dt>LENS </dt><dd>SIGMA 30MM </dd></dl>
+          <dl class="spec"><dt>Focus</dt><dd>Visual Storytelling</dd></dl>
+          <dl class="spec"><dt>Ambition</dt><dd>Boundless</dd></dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WORK / GALLERY ============ -->
+  <section class="sec" id="work" data-screen-label="Work">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="label"><span class="section-num">( 02 )</span></div>
+        <span class="eyebrow" style="color:var(--dark-soft)">Selected frames</span>
+      </div>
+      <h2 class="sec-title">Frames &amp; <span class="italic-soft">moments</span></h2>
+    </div>
+    <div class="gallery-wrap">
+      <div class="gallery" id="gallery">
+        <article class="frame openable" data-no="01" data-title="Flight" data-exif="202mm · f/5.6 · 1/2000s · ISO400" data-loc="">
+          <div class="shot"><img src="work-seagull.jpg" alt="Seagull over dark ocean" class="frame-img" loading="lazy" decoding="async" style="object-position:center 60%" /></div>
+          <div class="frame-meta"><span class="ttl">Flight</span><span class="no">/ 01</span></div>
+          <div class="frame-exif">202mm · f/5.6 · 1/2000s · ISO400</div>
+        </article>
+        <article class="frame openable" data-no="02" data-title="Sunset" data-exif="35mm · f/2.8 · 1/60s · ISO800" data-loc="">
+          <div class="shot"><img src="work-sunset.jpg" alt="Figure at sunset on the rocks" class="frame-img" loading="lazy" decoding="async" style="object-position:center 45%" /></div>
+          <div class="frame-meta"><span class="ttl">Sunset</span><span class="no">/ 02</span></div>
+          <div class="frame-exif">35mm · f/2.8 · 1/60s · ISO800</div>
+        </article>
+        <article class="frame openable" data-no="03" data-title="Cruising Altitude" data-exif="202mm · f/6.3 · 1/1000s · ISO100" data-loc="">
+          <div class="shot"><img src="work-plane.jpg" alt="Plane in teal sky" class="frame-img" loading="lazy" decoding="async" style="object-position:center center" /></div>
+          <div class="frame-meta"><span class="ttl">Cruising Altitude</span><span class="no">/ 03</span></div>
+          <div class="frame-exif">202mm · f/6.3 · 1/1000s · ISO100</div>
+        </article>
+        <article class="frame openable" data-no="04" data-title="Red Earth" data-exif="202mm · f/5.6 · 1/640s · ISO200" data-loc="">
+          <div class="shot"><img src="work-excavator.jpg" alt="Excavator on red earth" class="frame-img" loading="lazy" decoding="async" style="object-position:center center" /></div>
+          <div class="frame-meta"><span class="ttl">Red Earth</span><span class="no">/ 04</span></div>
+          <div class="frame-exif">202mm · f/5.6 · 1/640s · ISO200</div>
+        </article>
+        <article class="frame openable" data-no="05" data-title="Bloom" data-exif="85mm · f/2.8 · 1/500s · ISO400" data-loc="">
+          <div class="shot"><img src="work-plant.jpg" alt="Plant against city bokeh" class="frame-img" loading="lazy" decoding="async" style="object-position:center center" /></div>
+          <div class="frame-meta"><span class="ttl">Bloom</span><span class="no">/ 05</span></div>
+          <div class="frame-exif">85mm · f/2.8 · 1/500s · ISO400</div>
+        </article>
+      </div>
+      <div class="wrap">
+        <div class="gallery-foot">
+          <span class="hint">Drag or swipe to explore</span>
+          <span class="gallery-bar"><i class="gbar-fill"></i></span>
+          <span class="gallery-count"><b class="gnow">01</b> / 05</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INDEX / SCENES ============ -->
+  <section class="sec" id="index" data-screen-label="Index">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="label"><span class="section-num">( 03 )</span></div>
+        <span class="eyebrow">Types &amp; scenes</span>
+      </div>
+      <h2 class="sec-title" style="margin-bottom:clamp(24px,4vw,56px)">Scenes &amp; <span class="italic-soft">series</span></h2>
+      <div class="view-toggle">
+        <span class="vt-label">View as</span>
+        <span class="vt-opt is-on">Index</span>
+        <a class="vt-opt" href="Full Gallery.html"><span class="vt-wide">Spiral ↗</span><span class="vt-narrow">Full list ↗</span></a>
+      </div>
+      <div class="scenes">
+        <a class="scene" href="#johannesburg" data-preview="sa-madiba.jpg" data-preview-label="Johannesburg"><span class="s-no">01</span><span class="s-name">Johannesburg</span><span class="s-meta"><span class="s-count">— frames</span><span class="s-arr">↗</span></span></a>
+        <a class="scene" href="#capetown" data-preview="ct-waterfront.jpg" data-preview-label="Cape Town"><span class="s-no">02</span><span class="s-name">Cape Town</span><span class="s-meta"><span class="s-count">— frames</span><span class="s-arr">↗</span></span></a>
+        <a class="scene" href="#india" data-preview="ind-minaret.jpg" data-preview-label="India"><span class="s-no">03</span><span class="s-name">India</span><span class="s-meta"><span class="s-count">— frames</span><span class="s-arr">↗</span></span></a>
+        <a class="scene" href="#nature" data-preview="nat-mist.jpg" data-preview-label="Nature"><span class="s-no">04</span><span class="s-name">Nature</span><span class="s-meta"><span class="s-count">— frames</span><span class="s-arr">↗</span></span></a>
+        <a class="scene" href="#street" data-preview="str-sunday.jpg" data-preview-label="Street"><span class="s-no">05</span><span class="s-name">Street</span><span class="s-meta"><span class="s-count">— frames</span><span class="s-arr">↗</span></span></a>
+      </div>
+    </div>
+    <div class="scene-preview" id="scenePreview"><div class="sp-img"></div><div class="sp-label"></div></div>
+  </section>
+
+  <!-- ============ JOHANNESBURG ============ -->
+  <section class="sec topic-sec" id="johannesburg" data-screen-label="Johannesburg">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="label"><a href="#index" class="topic-back-link">← Index</a></div>
+        <span class="eyebrow" style="color:var(--panel-sub)">Scene 01 / 05</span>
+      </div>
+      <span class="topic-tag">Johannesburg</span>
+      <h2 class="sec-title">Johannesburg</h2>
+    </div>
+    <div class="gallery-wrap">
+      <div class="gallery">
+        <article class="frame openable" data-no="01" data-title="The Tower" data-exif="202mm · f/6.3 · 1/640s · ISO100" data-loc="Johannesburg"><div class="shot"><img src="sa-tower.jpg" alt="Skyscraper against stormy sky" class="frame-img" loading="lazy" decoding="async" style="object-position:center center" /></div><div class="frame-meta"><span class="ttl">The Tower</span><span class="no">/ 01</span></div><div class="frame-exif">202mm · f/6.3 · 1/640s · ISO100</div></article>
+        <article class="frame openable" data-no="02" data-title="Sandton City" data-exif="85mm · f/5.6 · 1/800s · ISO200" data-loc="Johannesburg"><div class="shot"><img src="sa-sandton.jpg" alt="Sandton City tower" class="frame-img" loading="lazy" decoding="async" style="object-position:center 35%" /></div><div class="frame-meta"><span class="ttl">Sandton City</span><span class="no">/ 02</span></div><div class="frame-exif">85mm · f/5.6 · 1/800s · ISO200</div></article>
+        <article class="frame openable" data-no="03" data-title="Glass &amp; Steel" data-exif="35mm · f/5.6 · 1/640s · ISO200" data-loc="Johannesburg"><div class="shot"><img src="sa-glass.jpg" alt="Glass office building" class="frame-img" loading="lazy" decoding="async" style="object-position:center 45%" /></div><div class="frame-meta"><span class="ttl">Glass &amp; Steel</span><span class="no">/ 03</span></div><div class="frame-exif">35mm · f/5.6 · 1/640s · ISO200</div></article>
+        <article class="frame openable" data-no="04" data-title="Madiba" data-exif="35mm · f/4.0 · 1/1000s · ISO200" data-loc="Johannesburg"><div class="shot" style="aspect-ratio:3/4"><img src="sa-madiba.jpg" alt="Mandela statue" class="frame-img" loading="lazy" decoding="async" style="object-position:center 30%" /></div><div class="frame-meta"><span class="ttl">Madiba</span><span class="no">/ 04</span></div><div class="frame-exif">35mm · f/4.0 · 1/1000s · ISO200</div></article>
+        <article class="frame openable" data-no="05" data-title="Fourways" data-exif="35mm · f/4.0 · 1/500s · ISO400" data-loc="Johannesburg"><div class="shot"><img src="sa-fourways.jpg" alt="Fourways intersection at dusk" class="frame-img" loading="lazy" decoding="async" style="object-position:center center" /></div><div class="frame-meta"><span class="ttl">Fourways</span><span class="no">/ 05</span></div><div class="frame-exif">35mm · f/4.0 · 1/500s · ISO400</div></article>
+      </div>
+      <div class="wrap"><div class="gallery-foot"><span class="hint">Drag or swipe</span><span class="gallery-bar"><i class="gbar-fill"></i></span><span class="gallery-count"><b class="gnow">01</b> / 05</span></div></div>
+    </div>
+  </section>
+
+  <!-- ============ CAPE TOWN ============ -->
+  <section class="sec topic-sec" id="capetown" data-screen-label="Cape Town">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="label"><a href="#index" class="topic-back-link">← Index</a></div>
+        <span class="eyebrow" style="color:var(--panel-sub)">Scene 02 / 05</span>
+      </div>
+      <span class="topic-tag">Cape Town</span>
+      <h2 class="sec-title">Cape Town</h2>
+    </div>
+    <div class="gallery-wrap">
+      <div class="gallery">
+        <article class="frame openable" data-no="01" data-title="The Waterfront" data-exif="18mm · f/4.0 · 1/60s · ISO800" data-loc="Cape Town"><div class="shot"><img src="ct-waterfront.jpg" alt="V&amp;A Waterfront harbour beneath Table Mountain at dawn" class="frame-img" loading="lazy" decoding="async" style="object-position:center 45%" /></div><div class="frame-meta"><span class="ttl">The Waterfront</span><span class="no">/ 01</span></div><div class="frame-exif">18mm · f/4.0 · 1/60s · ISO800</div></article>
+        <article class="frame openable" data-no="02" data-title="Promenade" data-exif="85mm · f/5.6 · 1/500s · ISO200" data-loc="Cape Town"><div class="shot"><img src="ct-promenade.jpg" alt="String lights along the quayside promenade below Signal Hill" class="frame-img" loading="lazy" decoding="async" style="object-position:center center" /></div><div class="frame-meta"><span class="ttl">Promenade</span><span class="no">/ 02</span></div><div class="frame-exif">85mm · f/5.6 · 1/500s · ISO200</div></article>
+        <article class="frame openable" data-no="03" data-title="The Cableway" data-exif="50mm · f/8.0 · 1/800s · ISO100" data-loc="Cape Town"><div class="shot"><img src="ct-cableway.jpg" alt="Cable cars climbing the cliff face of Table Mountain" class="frame-img" loading="lazy" decoding="async" style="object-position:center 40%" /></div><div class="frame-meta"><span class="ttl">The Cableway</span><span class="no">/ 03</span></div><div class="frame-exif">50mm · f/8.0 · 1/800s · ISO100</div></article>
+        <article class="frame openable" data-no="04" data-title="Into the Fog" data-exif="24mm · f/4.0 · 1/125s · ISO640" data-loc="Cape Town"><div class="shot" style="aspect-ratio:3/4"><img src="ct-fog.jpg" alt="Swing bridge disappearing into thick harbour fog" class="frame-img" loading="lazy" decoding="async" style="object-position:center center" /></div><div class="frame-meta"><span class="ttl">Into the Fog</span><span class="no">/ 04</span></div><div class="frame-exif">24mm · f/4.0 · 1/125s · ISO640</div></article>
+        <article class="frame openable" data-no="05" data-title="First Light" data-exif="35mm · f/5.6 · 1/320s · ISO400" data-loc="Cape Town"><div class="shot"><img src="ct-sunrise.jpg" alt="Crimson sunrise over the ocean and distant mountains" class="frame-img" loading="lazy" decoding="async" style="object-position:center center" /></div><div class="frame-meta"><span class="ttl">First Light</span><span class="no">/ 05</span></div><div class="frame-exif">35mm · f/5.6 · 1/320s · ISO400</div></article>
+        <article class="frame openable" data-no="06" data-title="Lion's Head" data-exif="18mm · f/5.6 · 1/1000s · ISO200" data-loc="Cape Town"><div class="shot"><img src="ct-aerial.jpg" alt="Aerial view of Lion's Head and the Atlantic seaboard" class="frame-img" loading="lazy" decoding="async" style="object-position:center center" /></div><div class="frame-meta"><span class="ttl">Lion's Head</span><span class="no">/ 06</span></div><div class="frame-exif">18mm · f/5.6 · 1/1000s · ISO200</div></article>
+        <article class="frame openable" data-no="07" data-title="Brothers" data-exif="135mm · f/5.6 · 1/640s · ISO400" data-loc="Cape Town"><div class="shot"><img src="ct-lions.jpg" alt="Two male lions walking through tall grass" class="frame-img" loading="lazy" decoding="async" style="object-position:42% center" /></div><div class="frame-meta"><span class="ttl">Brothers</span><span class="no">/ 07</span></div><div class="frame-exif">135mm · f/5.6 · 1/640s · ISO400</div></article>
+        <article class="frame openable" data-no="08" data-title="Shorebreak" data-exif="70mm · f/6.3 · 1/1250s · ISO160" data-loc="Cape Town"><div class="shot" style="aspect-ratio:3/4"><img src="ct-shore.jpg" alt="Aerial view of waves rolling onto a long beach" class="frame-img" loading="lazy" decoding="async" style="object-position:center center" /></div><div class="frame-meta"><span class="ttl">Shorebreak</span><span class="no">/ 08</span></div><div class="frame-exif">70mm · f/6.3 · 1/1250s · ISO160</div></article>
+      </div>
+      <div class="wrap"><div class="gallery-foot"><span class="hint">Drag or swipe</span><span class="gallery-bar"><i class="gbar-fill"></i></span><span class="gallery-count"><b class="gnow">01</b> / 08</span></div></div>
+    </div>
+  </section>
+
+  <!-- ============ INDIA ============ -->
+  <section class="sec topic-sec" id="india" data-screen-label="India">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="label"><a href="#index" class="topic-back-link">← Index</a></div>
+        <span class="eyebrow" style="color:var(--panel-sub)">Scene 03 / 05</span>
+      </div>
+      <span class="topic-tag">India</span>
+      <h2 class="sec-title">India</h2>
+    </div>
+    <div class="gallery-wrap">
+      <div class="gallery">
+        <article class="frame openable" data-no="01" data-title="Minaret" data-exif="24mm · f/4.0 · 1/500s · ISO400" data-loc="Hyderabad"><div class="shot"><img src="ind-minaret.jpg" alt="Charminar minaret framed through market stalls" class="frame-img" loading="lazy" decoding="async" style="object-position:center 25%" /></div><div class="frame-meta"><span class="ttl">Minaret</span><span class="no">/ 01</span></div><div class="frame-exif">24mm · f/4.0 · 1/500s · ISO400</div></article>
+        <article class="frame openable" data-no="02" data-title="Charminar" data-exif="50mm · f/5.6 · 1/640s · ISO200" data-loc="Hyderabad"><div class="shot"><img src="ind-charminar.jpg" alt="Charminar monument" class="frame-img" loading="lazy" decoding="async" style="object-position:center 55%" /></div><div class="frame-meta"><span class="ttl">Charminar</span><span class="no">/ 02</span></div><div class="frame-exif">50mm · f/5.6 · 1/640s · ISO200</div></article>
+        <article class="frame openable" data-no="03" data-title="Dusk" data-exif="202mm · f/6.3 · 1/500s · ISO400" data-loc="Hyderabad"><div class="shot"><img src="ind-secretariat.jpg" alt="Secretariat at dusk" class="frame-img" loading="lazy" decoding="async" style="object-position:center 60%" /></div><div class="frame-meta"><span class="ttl">Dusk</span><span class="no">/ 03</span></div><div class="frame-exif">202mm · f/6.3 · 1/500s · ISO400</div></article>
+        <article class="frame openable" data-no="04" data-title="The Bazaar" data-exif="24mm · f/4.0 · 1/500s · ISO400" data-loc="Hyderabad"><div class="shot"><img src="ind-bazaar.jpg" alt="Busy bazaar street" class="frame-img" loading="lazy" decoding="async" style="object-position:center center" /></div><div class="frame-meta"><span class="ttl">The Bazaar</span><span class="no">/ 04</span></div><div class="frame-exif">24mm · f/4.0 · 1/500s · ISO400</div></article>
+        <article class="frame openable" data-no="05" data-title="The Keeper" data-exif="202mm · f/5.6 · 1/800s · ISO400" data-loc="Hyderabad"><div class="shot"><img src="ind-pigeons.jpg" alt="Man feeding pigeons" class="frame-img" loading="lazy" decoding="async" style="object-position:center 45%" /></div><div class="frame-meta"><span class="ttl">The Keeper</span><span class="no">/ 05</span></div><div class="frame-exif">202mm · f/5.6 · 1/800s · ISO400</div></article>
+      </div>
+      <div class="wrap"><div class="gallery-foot"><span class="hint">Drag or swipe</span><span class="gallery-bar"><i class="gbar-fill"></i></span><span class="gallery-count"><b class="gnow">01</b> / 05</span></div></div>
+    </div>
+  </section>
+
+  <!-- ============ NATURE ============ -->
+  <section class="sec topic-sec" id="nature" data-screen-label="Nature">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="label"><a href="#index" class="topic-back-link">← Index</a></div>
+        <span class="eyebrow" style="color:var(--panel-sub)">Scene 04 / 05</span>
+      </div>
+      <span class="topic-tag">Nature</span>
+      <h2 class="sec-title"><span>Nature</span></h2>
+    </div>
+    <div class="gallery-wrap">
+      <div class="gallery">
+        <article class="frame openable" data-no="01" data-title="Mist" data-exif="202mm · f/5.6 · 1/400s · ISO400" data-loc=""><div class="shot"><img src="nat-mist.jpg" alt="Misty treeline" class="frame-img" loading="lazy" decoding="async" style="object-position:center center" /></div><div class="frame-meta"><span class="ttl">Mist</span><span class="no">/ 01</span></div><div class="frame-exif">202mm · f/5.6 · 1/400s · ISO400</div></article>
+        <article class="frame openable" data-no="02" data-title="Above the Clouds" data-exif="202mm · f/5.6 · 1/500s · ISO200" data-loc=""><div class="shot"><img src="nat-clouds.jpg" alt="Village above the clouds" class="frame-img" loading="lazy" decoding="async" style="object-position:center 40%" /></div><div class="frame-meta"><span class="ttl">Above the Clouds</span><span class="no">/ 02</span></div><div class="frame-exif">202mm · f/5.6 · 1/500s · ISO200</div></article>
+        <article class="frame openable" data-no="03" data-title="Terraces" data-exif="85mm · f/8.0 · 1/640s · ISO100" data-loc=""><div class="shot"><img src="nat-terraces.jpg" alt="Terraced hillside" class="frame-img" loading="lazy" decoding="async" style="object-position:center center" /></div><div class="frame-meta"><span class="ttl">Terraces</span><span class="no">/ 03</span></div><div class="frame-exif">85mm · f/8.0 · 1/640s · ISO100</div></article>
+        <article class="frame openable" data-no="04" data-title="Dragonfly" data-exif="85mm · f/4.0 · 1/500s · ISO400" data-loc=""><div class="shot"><img src="nat-dragonfly.jpg" alt="Dragonfly on a stem" class="frame-img" loading="lazy" decoding="async" style="object-position:center 38%" /></div><div class="frame-meta"><span class="ttl">Dragonfly</span><span class="no">/ 04</span></div><div class="frame-exif">85mm · f/4.0 · 1/500s · ISO400</div></article>
+      </div>
+      <div class="wrap"><div class="gallery-foot"><span class="hint">Drag or swipe</span><span class="gallery-bar"><i class="gbar-fill"></i></span><span class="gallery-count"><b class="gnow">01</b> / 04</span></div></div>
+    </div>
+  </section>
+
+  <!-- ============ STREET ============ -->
+  <section class="sec topic-sec" id="street" data-screen-label="Street">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="label"><a href="#index" class="topic-back-link">← Index</a></div>
+        <span class="eyebrow" style="color:var(--panel-sub)">Scene 05 / 05</span>
+      </div>
+      <span class="topic-tag">Street</span>
+      <h2 class="sec-title">Street life</h2>
+    </div>
+    <div class="gallery-wrap">
+      <div class="gallery">
+        <article class="frame openable" data-no="01" data-title="Gridlock" data-exif="85mm · f/5.6 · 1/640s · ISO400" data-loc=""><div class="shot"><img src="str-gridlock.jpg" alt="Dense city traffic" class="frame-img" loading="lazy" decoding="async" style="object-position:center 55%" /></div><div class="frame-meta"><span class="ttl">Gridlock</span><span class="no">/ 01</span></div><div class="frame-exif">85mm · f/5.6 · 1/640s · ISO400</div></article>
+        <article class="frame openable" data-no="02" data-title="The Market" data-exif="50mm · f/4.0 · 1/800s · ISO200" data-loc=""><div class="shot"><img src="str-market.jpg" alt="Colourful market street" class="frame-img" loading="lazy" decoding="async" style="object-position:center center" /></div><div class="frame-meta"><span class="ttl">The Market</span><span class="no">/ 02</span></div><div class="frame-exif">50mm · f/4.0 · 1/800s · ISO200</div></article>
+        <article class="frame openable" data-no="03" data-title="911" data-exif="135mm · f/4.0 · 1/640s · ISO400" data-loc=""><div class="shot"><img src="str-911.jpg" alt="Porsche 911 at Dunkeld Corner" class="frame-img" loading="lazy" decoding="async" style="object-position:center 58%" /></div><div class="frame-meta"><span class="ttl">911</span><span class="no">/ 03</span></div><div class="frame-exif">135mm · f/4.0 · 1/640s · ISO400</div></article>
+        <article class="frame openable" data-no="04" data-title="Sunday Drive" data-exif="202mm · f/5.6 · 1/500s · ISO200" data-loc=""><div class="shot" style="aspect-ratio:3/4"><img src="str-sunday.jpg" alt="Vintage Mercedes on autumn street" class="frame-img" loading="lazy" decoding="async" style="object-position:center 42%" /></div><div class="frame-meta"><span class="ttl">Sunday Drive</span><span class="no">/ 04</span></div><div class="frame-exif">202mm · f/5.6 · 1/500s · ISO200</div></article>
+        <article class="frame openable" data-no="05" data-title="Corner" data-exif="50mm · f/4.0 · 1/640s · ISO400" data-loc=""><div class="shot"><img src="str-corner.jpg" alt="Street corner vendors" class="frame-img" loading="lazy" decoding="async" style="object-position:center center" /></div><div class="frame-meta"><span class="ttl">Corner</span><span class="no">/ 05</span></div><div class="frame-exif">50mm · f/4.0 · 1/640s · ISO400</div></article>
+      </div>
+      <div class="wrap"><div class="gallery-foot"><span class="hint">Drag or swipe</span><span class="gallery-bar"><i class="gbar-fill"></i></span><span class="gallery-count"><b class="gnow">01</b> / 05</span></div></div>
+    </div>
+  </section>
+
+  <!-- ============ STATS ============ -->
+  <section class="sec stats" data-screen-label="Stats">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="label"><span class="section-num">( 04 )</span></div>
+        <span class="eyebrow">Field notes</span>
+      </div>
+      <div class="stat-grid">
+        <div class="stat" data-reveal><div class="num"><span class="count" data-target="4800">0</span><span class="suf">+</span></div><div class="cap">Frames captured</div></div>
+        <div class="stat" data-reveal data-reveal-delay="1"><div class="num"><span class="count" data-target="5">0</span></div><div class="cap">Scene collections</div></div>
+        <div class="stat" data-reveal data-reveal-delay="2"><div class="num"><span class="count" data-target="2">0</span></div><div class="cap">Continents documented</div></div>
+        <div class="stat" data-reveal data-reveal-delay="3"><div class="num"><span class="count" data-target="200">0</span><span class="suf">mm</span></div><div class="cap">Longest focal reach</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURE ============ -->
+  <section class="feature" data-screen-label="Feature">
+    <div class="feature-media"><video class="feature-bg-vid" id="featureVid" autoplay muted playsinline preload="auto" poster="feature-bg.jpg"><source src="feature-bg.mp4" type="video/mp4" /></video></div>
+    <div class="feature-scrim"></div>
+    <div class="wrap">
+      <blockquote class="feature-quote" data-reveal>
+        <p class="q" style="color: var(--accent)">ONE LENS, INFINITE PERSPECTIVES.</p>
+        <div class="by eq-grid">
+          <span class="eq-label">— Equipment</span>
+          <span class="eq-item">Sony A6700</span>
+          <span class="eq-item">Sony 18-135mm f/3.5-5.6</span>
+          <span class="eq-item">Sigma 30mm f/1.4</span>
+          <span class="eq-item">DJI RS4 Mini</span>
+        </div>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="sec" id="contact" data-screen-label="Contact">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="label"><span class="section-num">( 05 )</span></div>
+        <span class="eyebrow">Get in touch</span>
+      </div>
+      <h2 class="contact-big"><a href="https://instagram.com/tanveer_ttn"><span class="cb-word" data-text="Let's"><span>Let's</span></span><span class="cb-word" data-text="make"><span>make</span></span><span style="flex-basis:100%;height:0"></span><span class="cb-word" data-text="something"><span>something</span></span><span class="cb-arr">↗</span></a></h2>
+      <div class="contact-row">
+        <div class="contact-col">
+          <h4>Instagram</h4>
+          <a class="lk" href="https://instagram.com/tanveer_ttn">@tanveer_ttn</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-mark" style="font-size: 78px">THROUGH MY LENS</div>
+      <div class="foot-meta">Est. 2026 &middot; &copy; T. Naidu<br />All rights reserved</div>
+    </div>
+    <div class="foot-bottom">
+      <span>Tanveer Naidu · 2026</span>
+      <span>Photographer · Visual Storyteller</span>
+      <a href="#top">Back to top ↑</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ LIGHTBOX ============ -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lb-close" id="lbClose" aria-label="Close">Close</button>
+  <div class="lb-inner">
+    <div class="lb-img"><image-slot id="lb-slot" fit="cover" placeholder=""></image-slot></div>
+    <div class="lb-info">
+      <div class="lb-no" id="lbNo">/ 01</div>
+      <div class="lb-ttl" id="lbTtl">Golden Hour</div>
+      <dl>
+        <dt>Focal</dt><dd id="lbFocal">202mm</dd>
+        <dt>Aperture</dt><dd id="lbAp">f/6.3</dd>
+        <dt>Shutter</dt><dd id="lbSh">1/500s</dd>
+        <dt>ISO</dt><dd id="lbIso">100</dd>
+        <dt>Location</dt><dd id="lbLoc">—</dd>
+      </dl>
+      <div class="lb-nav">
+        <button id="lbPrev" aria-label="Previous">←</button>
+        <button id="lbNext" aria-label="Next">→</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TWEAKS MOUNT ============ -->
+<div id="tweaks-root"></div>
+
+<!-- ============ SCRIPTS ============ -->
+<script src="image-slot.js"></script>
+<script src="app.js?v=3"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel">
+const { useEffect } = React;
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accent": "oklch(0.64 0.145 48)",
+  "displayFont": "Archivo",
+  "grain": true,
+  "marquee": 33,
+  "studioName": "Through My Lens"
+}/*EDITMODE-END*/;
+
+const FONTS = {
+  "Archivo":       { family: '"Archivo", system-ui, sans-serif',     weight: 900, tracking: "-0.02em" },
+  "Anton":         { family: '"Anton", system-ui, sans-serif',        weight: 400, tracking: "0em" },
+  "Space Grotesk": { family: '"Space Grotesk", system-ui, sans-serif', weight: 700, tracking: "-0.02em" }
+};
+
+const ACCENTS = [
+  "oklch(0.64 0.145 48)",
+  "oklch(0.62 0.13 250)",
+  "oklch(0.64 0.13 150)",
+  "oklch(0.74 0.13 85)"
+];
+
+function shortName(name) {
+  const parts = String(name).trim().split(/\s+/);
+  if (parts.length < 2) return parts[0] || "";
+  return parts[0].charAt(0).toUpperCase() + ". " + parts[parts.length - 1];
+}
+function lastName(name) {
+  const parts = String(name).trim().split(/\s+/);
+  return parts[parts.length - 1] || name;
+}
+
+function App() {
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.dataset.base = "dark"; // site is exclusively dark-themed
+    root.style.setProperty("--accent", t.accent);
+    const f = FONTS[t.displayFont] || FONTS.Archivo;
+    root.style.setProperty("--font-display", f.family);
+    root.style.setProperty("--display-weight", f.weight);
+    root.style.setProperty("--display-tracking", f.tracking);
+    root.style.setProperty("--marquee-dur", t.marquee + "s");
+    document.body.classList.toggle("grain-on", !!t.grain);
+  }, [t.accent, t.displayFont, t.marquee, t.grain]);
+
+  useEffect(() => {
+    document.querySelectorAll(".js-name").forEach((el) => (el.textContent = t.studioName));
+    document.querySelectorAll(".js-name-upper").forEach((el) => (el.textContent = lastName(t.studioName)));
+    document.querySelectorAll(".js-name-short").forEach((el) => (el.textContent = shortName(t.studioName)));
+  }, [t.studioName]);
+
+  return (
+    <TweaksPanel>
+      <TweakSection label="Theme" />
+      <TweakColor label="Accent" value={t.accent} options={ACCENTS} onChange={(v) => setTweak("accent", v)} />
+      <TweakToggle label="Film grain" value={t.grain} onChange={(v) => setTweak("grain", v)} />
+
+      <TweakSection label="Type" />
+      <TweakSelect label="Display font" value={t.displayFont} options={["Archivo", "Anton", "Space Grotesk"]} onChange={(v) => setTweak("displayFont", v)} />
+
+      <TweakSection label="Motion" />
+      <TweakSlider label="Marquee speed" value={t.marquee} min={12} max={60} step={1} unit="s" onChange={(v) => setTweak("marquee", v)} />
+
+      <TweakSection label="Identity" />
+      <TweakText label="Studio name" value={t.studioName} onChange={(v) => setTweak("studioName", v)} />
+    </TweaksPanel>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("tweaks-root")).render(<App />);
+</script>
+
+</body>
+</html>

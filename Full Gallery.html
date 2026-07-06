@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&family=Anton&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="styles.css?v=4" />
 <style>
 /* ============================================================
    FULL GALLERY — helix spiral scroll
@@ -17,6 +17,13 @@
    ============================================================ */
 html, body { background: var(--dark-bg); color: var(--dark-ink); }
 html { scroll-behavior: auto; }
+
+/* smooth cross-document transition into/out of scene pages */
+@view-transition { navigation: auto; }
+@media (prefers-reduced-motion: no-preference) {
+  body { animation: sgPageIn 0.5s ease both; }
+}
+@keyframes sgPageIn { from { opacity: 0; } to { opacity: 1; } }
 
 /* 3D mode (JS adds .sg-3d): virtual infinite scroll — no native scrollbar */
 body.sg-3d { overflow: hidden; height: 100svh; }
@@ -88,6 +95,8 @@ body::before {
 .sg-card img {
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover; display: block;
+  transform-origin: center;
+  will-change: transform;
   -webkit-user-drag: none; user-select: none;
 }
 .sg-card-no {
@@ -191,6 +200,7 @@ body.sg-scroll .sg-hint { display: none !important; }
 .mg-card {
   position: relative; flex: none;
   width: 84vw; max-width: 360px; aspect-ratio: 3 / 4;
+  overflow: hidden;
   border-radius: 16px; overflow: hidden;
   background: var(--dark-paper);
   outline: 1px solid rgba(255,255,255,0.14); outline-offset: -1px;
@@ -208,6 +218,9 @@ body.sg-scroll .sg-hint { display: none !important; }
 .mg-photo {
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover; display: block;
+  transform: scale(var(--vbulge, 1));
+  transform-origin: center;
+  will-change: transform;
   -webkit-user-drag: none; user-select: none;
 }
 /* caption scrim — only blooms in at the centre frame */
@@ -308,7 +321,8 @@ body.sg-scroll .sg-hint { display: none !important; }
 
 <nav class="sg-rail" id="sgRail">
   <a href="#" data-cat="Selected Work">Selected</a>
-  <a href="#" data-cat="South Africa">South Africa</a>
+  <a href="#" data-cat="Johannesburg">Johannesburg</a>
+  <a href="#" data-cat="Cape Town">Cape Town</a>
   <a href="#" data-cat="India">India</a>
   <a href="#" data-cat="Nature">Nature</a>
   <a href="#" data-cat="Street">Street</a>
@@ -321,7 +335,8 @@ body.sg-scroll .sg-hint { display: none !important; }
 <!-- Reduced-motion / no-JS fallback list -->
 <main class="sg-list" id="sgList"></main>
 
-<script src="gallery-spiral.js"></script>
+<script src="photos-data.js?v=1"></script>
+<script src="gallery-spiral.js?v=6"></script>
 <script src="app.js"></script>
 </body>
 </html>
