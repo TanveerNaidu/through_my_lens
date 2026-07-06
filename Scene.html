@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" data-base="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Scene — Tanveer Naidu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&family=Anton&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css?v=4" />
+<style>
+/* ============================================================
+   SCENE — one series, every frame uncropped
+   A quiet, single-column reading of a scene. Dark studio base,
+   mono captions, images shown at their native aspect ratio.
+   ============================================================ */
+html, body { background: var(--dark-bg); color: var(--dark-ink); }
+
+/* smooth cross-document transition (supported browsers) */
+@view-transition { navigation: auto; }
+/* fallback: gentle page fade for everyone else */
+@media (prefers-reduced-motion: no-preference) {
+  body { animation: scPageIn 0.55s ease both; }
+}
+@keyframes scPageIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* faint grid — same studio depth as the spiral page */
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+.sc-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 40;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px var(--edge);
+  background: linear-gradient(to bottom, rgba(10,10,9,0.85), transparent);
+}
+.sc-nav a { text-decoration: none; color: var(--dark-ink); }
+.sc-back {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.sc-back .arr { display: inline-block; transition: transform 0.25s var(--ease); }
+.sc-back:hover .arr { transform: translateX(-4px); }
+.sc-brand { font-family: var(--font-display); font-weight: 900; font-size: 15px; letter-spacing: 0.01em; white-space: nowrap; flex: none; }
+.sc-brand sup { font-size: 8px; }
+.sc-count { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em; color: var(--dark-soft); }
+.sc-count b { color: var(--accent); font-weight: 700; }
+
+.sc-wrap {
+  position: relative; z-index: 1;
+  width: 100%; max-width: 1440px; margin-inline: auto;
+  padding: clamp(120px, 18vh, 190px) var(--edge) clamp(90px, 12vh, 150px);
+}
+
+.sc-head { margin-bottom: clamp(56px, 9vh, 110px); }
+.sc-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--dark-soft);
+}
+.sc-eyebrow::before { content: ""; width: 26px; height: 1px; background: var(--accent); }
+.sc-title {
+  margin: 14px 0 0;
+  font-family: var(--font-display); font-weight: 900; text-transform: uppercase;
+  font-size: clamp(52px, 9.5vw, 150px); line-height: 0.9; letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+/* ---- Tight masonry — native aspect, never cropped, sharp edges ---- */
+.sc-flow { columns: 3 320px; column-gap: 10px; }
+.sc-item {
+  margin: 0 0 10px; break-inside: avoid;
+  position: relative; overflow: hidden;
+}
+.sc-item img {
+  display: block; width: 100%; height: auto;
+  outline: 1px solid var(--dark-line); outline-offset: -1px;
+  -webkit-user-drag: none; user-select: none;
+}
+/* caption sits quietly over the lower edge; blooms in on hover */
+.sc-item figcaption {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+  display: flex; align-items: baseline; gap: 12px;
+  padding: 26px 14px 12px;
+  background: linear-gradient(to top, rgba(8,8,7,0.88), transparent);
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em;
+  opacity: 0; transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.sc-item:hover figcaption { opacity: 1; }
+@media (hover: none) { .sc-item figcaption { opacity: 1; } }
+.sc-item .no { color: var(--accent); }
+.sc-item .t {
+  font-family: var(--font-display); font-weight: 800; text-transform: uppercase;
+  font-size: 14px; letter-spacing: -0.01em; color: #fff;
+}
+.sc-item .m { margin-left: auto; color: rgba(244,241,236,0.75); text-align: right; }
+
+/* scroll reveal */
+@media (prefers-reduced-motion: no-preference) {
+  .sc-item { opacity: 0; transform: translateY(22px); transition: opacity 0.6s ease, transform 0.7s var(--ease); }
+  .sc-item.in { opacity: 1; transform: none; }
+}
+
+.sc-foot {
+  margin-top: clamp(80px, 12vh, 140px);
+  display: flex; justify-content: center;
+}
+.sc-foot a {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.16em;
+  text-transform: uppercase; text-decoration: none; color: var(--dark-soft);
+  border: 1px solid var(--dark-line); padding: 14px 26px; border-radius: 999px;
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+.sc-foot a:hover { color: var(--dark-ink); border-color: var(--dark-soft); }
+
+@media (max-width: 700px) {
+  .sc-flow { columns: 2 150px; column-gap: 8px; }
+  .sc-item { margin-bottom: 8px; }
+  .sc-item .m { display: none; }
+  .sc-nav { padding: 14px var(--edge); }
+  .sc-back { font-size: 11px; letter-spacing: 0.1em; }
+  .sc-back .lbl-wide { display: none; }
+  .sc-brand { font-size: 13px; }
+  .sc-count { font-size: 11px; }
+}
+</style>
+<template id="__bundler_thumbnail" data-bg-color="#15130f">
+  <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+    <rect x="290" y="130" width="220" height="240" rx="10" fill="none" stroke="#c4703a" stroke-width="6"/>
+    <circle cx="400" cy="250" r="46" fill="#c4703a" opacity="0.25"/>
+    <circle cx="400" cy="250" r="10" fill="#c4703a"/>
+  </svg>
+</template>
+</head>
+<body class="grain-on">
+
+<div class="grain" aria-hidden="true"></div>
+
+<header class="sc-nav">
+  <a href="Full Gallery.html" class="sc-back"><span class="arr">←</span>&nbsp;<span class="lbl-wide">&nbsp;Full</span>&nbsp;Gallery</a>
+  <a href="index.html" class="sc-brand">Through My Lens<sup>®</sup></a>
+  <div class="sc-count"><b id="scNow">—</b> frames</div>
+</header>
+
+<main class="sc-wrap">
+  <div class="sc-head">
+    <span class="sc-eyebrow">Scene</span>
+    <h1 class="sc-title" id="scTitle">—</h1>
+  </div>
+  <div class="sc-flow" id="scFlow"></div>
+  <div class="sc-foot"><a href="Full Gallery.html">← Back to the spiral</a></div>
+</main>
+
+<script src="photos-data.js?v=1"></script>
+<script>
+(function () {
+  "use strict";
+  var params = new URLSearchParams(location.search);
+  var cat = params.get("cat") || "work";
+  var all = window.TML_PHOTOS || [];
+  var photos = all.filter(function (p) { return p.h === cat; });
+  if (!photos.length) { photos = all; }
+
+  var name = photos[0] ? photos[0].c : "Scene";
+  document.title = name + " — Tanveer Naidu";
+  document.getElementById("scTitle").textContent = name;
+  document.getElementById("scNow").textContent = String(photos.length).padStart(2, "0");
+
+  var flow = document.getElementById("scFlow");
+  photos.forEach(function (p, i) {
+    var fig = document.createElement("figure");
+    fig.className = "sc-item";
+    var img = document.createElement("img");
+    img.src = p.src; img.alt = p.t;
+    img.loading = i < 2 ? "eager" : "lazy";
+    img.decoding = "async";
+    var cap = document.createElement("figcaption");
+    cap.innerHTML =
+      '<span class="no">/ ' + String(i + 1).padStart(2, "0") + "</span>" +
+      '<span class="t"></span>' +
+      '<span class="m"></span>';
+    cap.querySelector(".t").textContent = p.t;
+    cap.querySelector(".m").textContent = p.m || "";
+    fig.appendChild(img); fig.appendChild(cap);
+    flow.appendChild(fig);
+  });
+
+  /* scroll reveal */
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var items = Array.prototype.slice.call(document.querySelectorAll(".sc-item"));
+  if (reduce || !("IntersectionObserver" in window)) {
+    items.forEach(function (el) { el.classList.add("in"); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });
+    items.forEach(function (el) { io.observe(el); });
+  }
+})();
+</script>
+<script src="app.js?v=3"></script>
+
+</body>
+</html>
